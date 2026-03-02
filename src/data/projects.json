@@ -10,7 +10,7 @@
     "title": "NBA Spread Betting Tracker",
     "description": "Tracking model predictions on NBA spreads.",
     "tags": ["Machine Learning", "Betting", "Sports"],
-    "appUrl": "https://ykonsta-nba-spread-tracker.streamlit.app/",
+    "appUrl": "https://nba-spread-tracker.up.railway.app/",
     "repoUrl": "https://github.com/ykonsta15/nba-spread-tracker"
   }
 ]

@@ -1,0 +1,139 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import projects from '../data/projects.json';
+
+const allTags = Array.from(new Set(projects.flatMap((project) => project.tags))).sort((a, b) => a.localeCompare(b));
+---
+
+<BaseLayout
+  title="Portfolio | Deployed Apps"
+  description="Central portfolio of deployed apps with live links and source repositories."
+>
+  <main class="container">
+    <header class="hero">
+      <h1>My Deployed Apps</h1>
+      <p>Browse projects, filter by tag, and jump to the live app or source code.</p>
+    </header>
+
+    <section class="controls" aria-label="Project filters">
+      <input id="searchInput" type="search" placeholder="Search title or description" aria-label="Search projects" />
+      <select id="tagFilter" aria-label="Filter by tag">
+        <option value="all">All tags</option>
+        {allTags.map((tag) => (
+          <option value={tag.toLowerCase()}>{tag}</option>
+        ))}
+      </select>
+    </section>
+
+    <p id="resultsCount" class="results-count">Showing {projects.length} projects</p>
+
+    <section id="projectsGrid" class="grid" aria-live="polite">
+      {projects.map((project) => <ProjectCard project={project} />)}
+    </section>
+  </main>
+
+  <script>
+    const searchInput = document.querySelector('#searchInput');
+    const tagFilter = document.querySelector('#tagFilter');
+    const cards = Array.from(document.querySelectorAll('[data-project]'));
+    const countEl = document.querySelector('#resultsCount');
+
+    const updateProjects = () => {
+      const searchTerm = (searchInput?.value || '').trim().toLowerCase();
+      const selectedTag = tagFilter?.value || 'all';
+
+      let visibleCount = 0;
+
+      cards.forEach((card) => {
+        const title = card.getAttribute('data-title') || '';
+        const description = card.getAttribute('data-description') || '';
+        const tags = (card.getAttribute('data-tags') || '').split(',').filter(Boolean);
+
+        const matchesSearch = !searchTerm || title.includes(searchTerm) || description.includes(searchTerm);
+        const matchesTag = selectedTag === 'all' || tags.includes(selectedTag);
+
+        const visible = matchesSearch && matchesTag;
+        card.style.display = visible ? '' : 'none';
+        if (visible) visibleCount += 1;
+      });
+
+      if (countEl) {
+        countEl.textContent = `Showing ${visibleCount} project${visibleCount === 1 ? '' : 's'}`;
+      }
+    };
+
+    searchInput?.addEventListener('input', updateProjects);
+    tagFilter?.addEventListener('change', updateProjects);
+  </script>
+
+  <style>
+    .container {
+      width: min(1100px, calc(100% - 2rem));
+      margin: 0 auto;
+      padding: 2.5rem 0 3rem;
+    }
+
+    .hero {
+      margin-bottom: 1.25rem;
+    }
+
+    .hero h1 {
+      margin: 0;
+      font-size: clamp(1.8rem, 4vw, 2.6rem);
+      line-height: 1.2;
+    }
+
+    .hero p {
+      margin: 0.55rem 0 0;
+      color: var(--muted);
+      max-width: 60ch;
+    }
+
+    .controls {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 0.7rem;
+      margin-bottom: 0.8rem;
+    }
+
+    input,
+    select {
+      width: 100%;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 0.65rem 0.8rem;
+      font-size: 0.95rem;
+      background: #ffffff;
+      color: var(--text);
+    }
+
+    .results-count {
+      margin: 0 0 1rem;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .grid {
+      display: grid;
+      gap: 1rem;
+      grid-template-columns: repeat(1, minmax(0, 1fr));
+    }
+
+    @media (min-width: 680px) {
+      .controls {
+        grid-template-columns: 1fr 220px;
+      }
+
+      .grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (min-width: 1024px) {
+      .grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+    }
+  </style>
+</BaseLayout>

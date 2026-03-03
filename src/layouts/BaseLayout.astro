@@ -5,8 +5,8 @@ interface Props {
 }
 
 const {
-  title = 'Portfolio | Deployed Apps',
-  description = 'A central portfolio listing deployed apps with links to live demos and repositories.'
+  title = "Yoav's CodeX Projects",
+  description = "Track Yoav's shipped apps, publication milestones, and build insights in one place."
 } = Astro.props;
 
 const pageTitle = title;
@@ -36,15 +36,15 @@ const pageUrl = new URL(Astro.url.pathname, Astro.site ?? 'https://example-portf
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <style is:global>
       :root {
-        color-scheme: light;
-        --bg: #f6f8fb;
-        --panel: #ffffff;
-        --text: #101828;
-        --muted: #475467;
-        --border: #d0d5dd;
-        --accent: #1d4ed8;
-        --accent-hover: #1e40af;
-        --chip: #eef2ff;
+        color-scheme: dark;
+        --bg: #05050a;
+        --panel: #09090f;
+        --text: #f5f3ff;
+        --text-soft: #c8c3d6;
+        --muted: #a3a0b6;
+        --border: rgba(167, 139, 250, 0.25);
+        --accent: #9333ea;
+        --accent-hover: #7e22ce;
       }
 
       * {
@@ -53,8 +53,11 @@ const pageUrl = new URL(Astro.url.pathname, Astro.site ?? 'https://example-portf
 
       body {
         margin: 0;
-        font-family: "Avenir Next", Avenir, "Segoe UI", Helvetica, Arial, sans-serif;
-        background: radial-gradient(circle at 10% 20%, #ffffff 0%, var(--bg) 50%, #edf2f7 100%);
+        font-family: "Space Grotesk", "Avenir Next", "Segoe UI", sans-serif;
+        background:
+          radial-gradient(1000px 460px at 10% -10%, rgba(147, 51, 234, 0.42), transparent 60%),
+          radial-gradient(900px 420px at 100% 0%, rgba(124, 58, 237, 0.34), transparent 58%),
+          linear-gradient(145deg, #040408 0%, #09070f 45%, #0f0820 100%);
         color: var(--text);
         min-height: 100vh;
       }

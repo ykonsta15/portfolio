@@ -6,7 +6,8 @@ A central portfolio website that lists your deployed apps and links to each app 
 
 - Astro
 - Static JSON data source: `src/data/projects.json`
-- Client-side search + tag filter
+- Client-side search
+- Progress-centric cards with publication date + insight notes
 
 ## Local development
 
@@ -46,7 +47,9 @@ Vercel will automatically redeploy on every push to your main branch.
 {
   "title": "Project Name",
   "description": "Short summary",
-  "tags": ["Tag1", "Tag2"],
+  "publishedAt": "2026-03-02",
+  "insight": "One key insight learned while building it.",
+  "progress": 65,
   "appUrl": "https://your-app-url.vercel.app",
   "repoUrl": "https://github.com/your-username/your-repo"
 }
@@ -56,5 +59,6 @@ Vercel will automatically redeploy on every push to your main branch.
 
 ## Notes
 
-- Replace the placeholder Ask a Philosopher URLs in `src/data/projects.json` with your real links.
+- `publishedAt` should use ISO format (`YYYY-MM-DD`) so sorting works correctly.
+- `progress` is a number from `0` to `100`.
 - Update `site` in `astro.config.mjs` to your final production domain for fully accurate OpenGraph URLs.

@@ -3,57 +3,78 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import ProjectCard from '../components/ProjectCard.astro';
 import projects from '../data/projects.json';
 
-const allTags = Array.from(new Set(projects.flatMap((project) => project.tags))).sort((a, b) => a.localeCompare(b));
+const sortedProjects = [...projects].sort(
+  (a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime()
+);
+const totalProjects = sortedProjects.length;
+const avgProgress = Math.round(
+  sortedProjects.reduce((acc, project) => acc + project.progress, 0) / Math.max(totalProjects, 1)
+);
+const inProgressCount = sortedProjects.filter((project) => project.progress < 100).length;
 ---
 
 <BaseLayout
-  title="Portfolio | Deployed Apps"
-  description="Central portfolio of deployed apps with live links and source repositories."
+  title="Yoav's CodeX Projects"
+  description="Track live CodeX projects with publication dates, build insights, and ongoing progress."
 >
   <main class="container">
     <header class="hero">
-      <h1>My Deployed Apps</h1>
-      <p>Browse projects, filter by tag, and jump to the live app or source code.</p>
+      <p class="eyebrow">Portfolio Dashboard</p>
+      <h1>Yoav's CodeX Projects</h1>
+      <p>Futuristic progress board for shipped apps, with the insight behind each build.</p>
     </header>
 
-    <section class="controls" aria-label="Project filters">
-      <input id="searchInput" type="search" placeholder="Search title or description" aria-label="Search projects" />
-      <select id="tagFilter" aria-label="Filter by tag">
-        <option value="all">All tags</option>
-        {allTags.map((tag) => (
-          <option value={tag.toLowerCase()}>{tag}</option>
-        ))}
-      </select>
+    <section class="stats" aria-label="Progress overview">
+      <article class="stat">
+        <span class="label">Projects</span>
+        <strong>{totalProjects}</strong>
+      </article>
+      <article class="stat">
+        <span class="label">In progress</span>
+        <strong>{inProgressCount}</strong>
+      </article>
+      <article class="stat">
+        <span class="label">Average completion</span>
+        <strong>{avgProgress}%</strong>
+      </article>
+    </section>
+
+    <section class="controls" aria-label="Search projects">
+      <input
+        id="searchInput"
+        type="search"
+        placeholder="Search by title, description, or insight note"
+        aria-label="Search projects"
+      />
     </section>
 
     <p id="resultsCount" class="results-count">Showing {projects.length} projects</p>
 
     <section id="projectsGrid" class="grid" aria-live="polite">
-      {projects.map((project) => <ProjectCard project={project} />)}
+      {sortedProjects.map((project) => <ProjectCard project={project} />)}
     </section>
   </main>
 
   <script>
     const searchInput = document.querySelector('#searchInput');
-    const tagFilter = document.querySelector('#tagFilter');
     const cards = Array.from(document.querySelectorAll('[data-project]'));
     const countEl = document.querySelector('#resultsCount');
 
     const updateProjects = () => {
       const searchTerm = (searchInput?.value || '').trim().toLowerCase();
-      const selectedTag = tagFilter?.value || 'all';
 
       let visibleCount = 0;
 
       cards.forEach((card) => {
         const title = card.getAttribute('data-title') || '';
         const description = card.getAttribute('data-description') || '';
-        const tags = (card.getAttribute('data-tags') || '').split(',').filter(Boolean);
+        const insight = card.getAttribute('data-insight') || '';
 
-        const matchesSearch = !searchTerm || title.includes(searchTerm) || description.includes(searchTerm);
-        const matchesTag = selectedTag === 'all' || tags.includes(selectedTag);
-
-        const visible = matchesSearch && matchesTag;
+        const visible =
+          !searchTerm ||
+          title.includes(searchTerm) ||
+          description.includes(searchTerm) ||
+          insight.includes(searchTerm);
         card.style.display = visible ? '' : 'none';
         if (visible) visibleCount += 1;
       });
@@ -64,7 +85,6 @@ const allTags = Array.from(new Set(projects.flatMap((project) => project.tags)))
     };
 
     searchInput?.addEventListener('input', updateProjects);
-    tagFilter?.addEventListener('change', updateProjects);
   </script>
 
   <style>
@@ -75,19 +95,56 @@ const allTags = Array.from(new Set(projects.flatMap((project) => project.tags)))
     }
 
     .hero {
-      margin-bottom: 1.25rem;
+      margin-bottom: 1rem;
+    }
+
+    .eyebrow {
+      margin: 0;
+      color: #d8b4fe;
+      font-family: "IBM Plex Mono", "SF Mono", Menlo, monospace;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      font-size: 0.72rem;
     }
 
     .hero h1 {
       margin: 0;
-      font-size: clamp(1.8rem, 4vw, 2.6rem);
+      font-size: clamp(2rem, 4vw, 2.9rem);
       line-height: 1.2;
     }
 
     .hero p {
       margin: 0.55rem 0 0;
-      color: var(--muted);
+      color: var(--text-soft);
       max-width: 60ch;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(1, minmax(0, 1fr));
+      gap: 0.7rem;
+      margin-bottom: 1rem;
+    }
+
+    .stat {
+      border: 1px solid rgba(196, 181, 253, 0.25);
+      background: rgba(15, 12, 28, 0.75);
+      border-radius: 12px;
+      padding: 0.7rem 0.8rem;
+      display: grid;
+      gap: 0.3rem;
+    }
+
+    .stat .label {
+      color: var(--muted);
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-family: "IBM Plex Mono", "SF Mono", Menlo, monospace;
+    }
+
+    .stat strong {
+      font-size: 1.5rem;
     }
 
     .controls {
@@ -97,15 +154,18 @@ const allTags = Array.from(new Set(projects.flatMap((project) => project.tags)))
       margin-bottom: 0.8rem;
     }
 
-    input,
-    select {
+    input {
       width: 100%;
-      border: 1px solid var(--border);
+      border: 1px solid rgba(216, 180, 254, 0.36);
       border-radius: 10px;
       padding: 0.65rem 0.8rem;
       font-size: 0.95rem;
-      background: #ffffff;
+      background: rgba(8, 7, 15, 0.7);
       color: var(--text);
+    }
+
+    input::placeholder {
+      color: #9e92b8;
     }
 
     .results-count {
@@ -121,8 +181,8 @@ const allTags = Array.from(new Set(projects.flatMap((project) => project.tags)))
     }
 
     @media (min-width: 680px) {
-      .controls {
-        grid-template-columns: 1fr 220px;
+      .stats {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
       }
 
       .grid {

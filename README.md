@@ -48,6 +48,7 @@ Vercel will automatically redeploy on every push to your main branch.
   "title": "Project Name",
   "description": "Short summary",
   "publishedAt": "2026-03-02",
+  "progress": 65,
   "appUrl": "https://your-app-url.vercel.app",
   "repoUrl": "https://github.com/your-username/your-repo"
 }
@@ -58,4 +59,5 @@ Vercel will automatically redeploy on every push to your main branch.
 ## Notes
 
 - `publishedAt` should use ISO format (`YYYY-MM-DD`) so sorting works correctly.
+- `progress` is a number from `0` to `100`.
 - Update `site` in `astro.config.mjs` to your final production domain for fully accurate OpenGraph URLs.

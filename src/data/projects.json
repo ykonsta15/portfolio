@@ -3,6 +3,7 @@
     "title": "Ask a Philosopher",
     "description": "Ask philosophical questions and get thoughtful, concise responses.",
     "publishedAt": "2026-03-02",
+    "progress": 100,
     "appUrl": "https://ask-a-philosopher-production.up.railway.app/",
     "repoUrl": "https://github.com/ykonsta15/ask-a-philosopher"
   },
@@ -10,6 +11,7 @@
     "title": "NBA Spread Betting Tracker",
     "description": "Tracking model predictions on NBA spreads.",
     "publishedAt": "2026-02-28",
+    "progress": 70,
     "appUrl": "https://nba-spread-tracker.up.railway.app/",
     "repoUrl": "https://github.com/ykonsta15/nba-spread-tracker"
   }

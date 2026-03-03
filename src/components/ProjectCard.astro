@@ -3,6 +3,7 @@ interface Project {
   title: string;
   description: string;
   publishedAt: string;
+  progress: number;
   appUrl: string;
   repoUrl: string;
 }
@@ -17,6 +18,7 @@ const publishedLabel = new Date(project.publishedAt).toLocaleDateString('en-US',
   month: 'short',
   day: 'numeric'
 });
+const isComplete = project.progress >= 100;
 ---
 
 <article
@@ -28,6 +30,16 @@ const publishedLabel = new Date(project.publishedAt).toLocaleDateString('en-US',
   <p class="date">Published {publishedLabel}</p>
   <h2>{project.title}</h2>
   <p>{project.description}</p>
+
+  <section class="progress" aria-label="Build progress">
+    <div class="progress-head">
+      <span>Progress</span>
+      <strong>{isComplete ? <span>&#10003; Complete</span> : `${project.progress}%`}</strong>
+    </div>
+    <div class="progress-track">
+      <div class="progress-fill" style={`width: ${Math.min(Math.max(project.progress, 0), 100)}%`} />
+    </div>
+  </section>
 
   <div class="actions">
     <a href={project.appUrl} target="_blank" rel="noreferrer noopener" class="btn btn-primary">Open app</a>
@@ -64,6 +76,39 @@ const publishedLabel = new Date(project.publishedAt).toLocaleDateString('en-US',
     margin: 0;
     color: var(--text-soft);
     line-height: 1.5;
+  }
+
+  .progress {
+    display: grid;
+    gap: 0.45rem;
+  }
+
+  .progress-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: var(--muted);
+    font-size: 0.8rem;
+    font-family: "IBM Plex Mono", "SF Mono", Menlo, monospace;
+  }
+
+  .progress-head strong {
+    color: var(--text);
+    font-size: 0.8rem;
+    font-weight: 600;
+  }
+
+  .progress-track {
+    height: 8px;
+    width: 100%;
+    border-radius: 999px;
+    background: #262231;
+    overflow: hidden;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #5b4a8b, #7a69aa);
   }
 
   .actions {

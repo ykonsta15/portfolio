@@ -6,7 +6,7 @@ interface Props {
 
 const {
   title = "Yoav's CodeX Projects",
-  description = "Track Yoav's shipped apps, publication milestones, and build insights in one place."
+  description = "A minimalist index of Yoav's shipped apps with publication dates and links."
 } = Astro.props;
 
 const pageTitle = title;
@@ -37,14 +37,14 @@ const pageUrl = new URL(Astro.url.pathname, Astro.site ?? 'https://example-portf
     <style is:global>
       :root {
         color-scheme: dark;
-        --bg: #05050a;
-        --panel: #09090f;
-        --text: #f5f3ff;
-        --text-soft: #c8c3d6;
-        --muted: #a3a0b6;
-        --border: rgba(167, 139, 250, 0.25);
-        --accent: #9333ea;
-        --accent-hover: #7e22ce;
+        --bg: #0c0c10;
+        --panel: #121217;
+        --text: #efedf5;
+        --text-soft: #b9b4c6;
+        --muted: #9a95ab;
+        --border: #302b3c;
+        --accent: #5b4a8b;
+        --accent-hover: #4b3d73;
       }
 
       * {
@@ -55,9 +55,8 @@ const pageUrl = new URL(Astro.url.pathname, Astro.site ?? 'https://example-portf
         margin: 0;
         font-family: "Space Grotesk", "Avenir Next", "Segoe UI", sans-serif;
         background:
-          radial-gradient(1000px 460px at 10% -10%, rgba(147, 51, 234, 0.42), transparent 60%),
-          radial-gradient(900px 420px at 100% 0%, rgba(124, 58, 237, 0.34), transparent 58%),
-          linear-gradient(145deg, #040408 0%, #09070f 45%, #0f0820 100%);
+          radial-gradient(800px 360px at 8% -8%, rgba(99, 75, 148, 0.2), transparent 58%),
+          linear-gradient(145deg, #0c0c10 0%, #0e0e13 45%, #11111a 100%);
         color: var(--text);
         min-height: 100vh;
       }

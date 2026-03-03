@@ -3,8 +3,6 @@
     "title": "Ask a Philosopher",
     "description": "Ask philosophical questions and get thoughtful, concise responses.",
     "publishedAt": "2026-02-12",
-    "insight": "People ask better questions when the UI lowers friction and gives one clear prompt box.",
-    "progress": 82,
     "appUrl": "https://ask-a-philosopher-production.up.railway.app/",
     "repoUrl": "https://github.com/ykonsta15/ask-a-philosopher"
   },
@@ -12,18 +10,7 @@
     "title": "NBA Spread Betting Tracker",
     "description": "Tracking model predictions on NBA spreads.",
     "publishedAt": "2026-02-24",
-    "insight": "Separating model confidence from pick direction made the dashboard easier to trust at a glance.",
-    "progress": 68,
     "appUrl": "https://nba-spread-tracker.up.railway.app/",
     "repoUrl": "https://github.com/ykonsta15/nba-spread-tracker"
-  },
-  {
-    "title": "CodeX Build Notes",
-    "description": "A running public log of experiments, architecture choices, and shipping lessons.",
-    "publishedAt": "2026-03-01",
-    "insight": "Short weekly summaries help keep momentum and make future refactors much easier.",
-    "progress": 44,
-    "appUrl": "https://codex-build-notes.vercel.app/",
-    "repoUrl": "https://github.com/ykonsta15/codex-build-notes"
   }
 ]
